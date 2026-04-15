@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(mv portfolio-tmp/* portfolio-tmp/.* .)",
+      "Bash(rmdir portfolio-tmp:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

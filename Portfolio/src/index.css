@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#0a0a0a] text-[#f5f5f5] font-sans;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(168, 85, 247, 0.4);
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262626;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #404040;
+  }
+}
+
+@layer components {
+  .text-stroke {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    color: transparent;
+  }
+  .text-stroke-lg {
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+    color: transparent;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#a855f7] text-white font-medium
+           hover:bg-[#9333ea] transition-all duration-300 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)]
+           hover:scale-[1.03] active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#262626]
+           text-[#f5f5f5] font-medium hover:border-[#a855f7]/50 hover:bg-[#a855f7]/10
+           transition-all duration-300 hover:scale-[1.03] active:scale-[0.98];
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1a1a1a]
+           border border-[#262626] text-xs font-mono text-[#a3a3a3]
+           hover:border-[#a855f7]/50 hover:text-[#f5f5f5] transition-colors;
+  }
+  .panel {
+    @apply bg-[#111111] border border-[#262626] rounded-2xl;
+  }
+}
