@@ -12,8 +12,8 @@ import { GlassDock, type DockItem } from "@/components/ui/glass-dock";
 
 function downloadCV() {
   const a = document.createElement("a");
-  a.href = "/Advait_Arora_BA_Resume.pdf";
-  a.download = "Advait_Arora_BA_Resume.pdf";
+  a.href = "/Advait_Arora_CV.pdf";
+  a.download = "Advait_Arora_CV.pdf";
   document.body.appendChild(a);
   a.click();
   a.remove();
