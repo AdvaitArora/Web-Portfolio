@@ -75,4 +75,47 @@
   .panel {
     @apply bg-[#111111] border border-[#262626] rounded-2xl;
   }
+
+  /* ---- Glass dock (replaces the top navbar) ---- */
+  .glass-border {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .glass-dock {
+    background: rgba(10, 10, 10, 0.55);
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+
+  /* Morphing icon buttons inside the dock */
+  .glass-dock .morph-icon {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #a3a3a3;
+    transition: color 0.2s ease;
+  }
+  .glass-dock .morph-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    overflow: visible;
+  }
+  .glass-dock .morph-icon svg path {
+    fill: currentColor;
+  }
+  .glass-dock .morph-icon:hover,
+  .glass-dock .morph-icon.active {
+    color: #ffffff;
+  }
 }

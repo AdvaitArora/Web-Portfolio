@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { LinkedinIcon } from "@/components/ui/brand-icons";
-import ColorBends from "@/components/ui/color-bends";
+import { ShadowOverlay } from "@/components/ui/shadow-overlay";
 
 const SKILL_BADGES = [
   { label: "Power BI", x: "-14%", y: "12%", delay: 0.9 },
@@ -18,18 +18,11 @@ export function HeroSection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 pt-24 pb-16 isolate"
     >
       <div className="absolute inset-0 z-0">
-        <ColorBends
-          colors={["#a855f7", "#ec4899", "#f97316", "#22d3ee", "#6366f1"]}
-          rotation={45}
-          speed={0.2}
-          scale={1}
-          frequency={1}
-          warpStrength={1}
-          mouseInfluence={0}
-          parallax={0}
-          noise={0.1}
-          autoRotate={0}
-          transparent={false}
+        <ShadowOverlay
+          color="rgba(168, 85, 247, 0.85)"
+          animation={{ scale: 65, speed: 55 }}
+          noise={{ opacity: 0.35, scale: 1.2 }}
+          className="absolute inset-0"
         />
         <div className="absolute inset-0 bg-black/55 pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.08),transparent_70%)] pointer-events-none" />
