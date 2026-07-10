@@ -42,11 +42,18 @@ const SKILLS = [
   },
 ];
 
-const STATS = [
+const STATS: {
+  value: number;
+  suffix: string;
+  prefix?: string;
+  label: string;
+  decimals?: number;
+  circled?: boolean;
+}[] = [
   { value: 80, suffix: "%", label: "Manual Reporting\nReduced" },
   { value: 60, suffix: "%", label: "Onboarding\nQueries Reduced" },
   { value: 47, suffix: "", label: "Vendors\nAnalysed" },
-  { value: 29.85, suffix: "Cr", prefix: "₹", label: "Spend\nAnalysed", decimals: 2 },
+  { value: 29.85, suffix: "Cr", prefix: "₹", label: "Spend\nAnalysed", decimals: 2, circled: true },
 ];
 
 function CountUp({
@@ -96,7 +103,7 @@ export function SkillsSection() {
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#a855f7] mb-3">
             ― What I Bring
           </p>
-          <h2 className="font-display text-5xl md:text-7xl tracking-tight">
+          <h2 className="font-display text-3xl md:text-5xl tracking-tight">
             SKILLS <span className="gradient-text">& IMPACT</span>
           </h2>
         </div>
@@ -112,7 +119,31 @@ export function SkillsSection() {
             >
               <BorderGlow className="h-full">
                 <div className="p-6 md:p-8 text-center">
-                  <div className="font-display text-4xl md:text-6xl gradient-text leading-none">
+                  <div className="relative inline-block font-display text-2xl md:text-3xl gradient-text leading-none">
+                    {s.circled && (
+                      <svg
+                        className="absolute -inset-x-[24%] -inset-y-[58%] w-[148%] h-[216%] pointer-events-none overflow-visible"
+                        viewBox="0 0 120 48"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                      >
+                        <motion.ellipse
+                          cx="60"
+                          cy="24"
+                          rx="57"
+                          ry="20"
+                          fill="none"
+                          stroke="#ec4899"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          transform="rotate(-4 60 24)"
+                          initial={{ pathLength: 0 }}
+                          whileInView={{ pathLength: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.9, delay: 1.2, ease: "easeOut" }}
+                        />
+                      </svg>
+                    )}
                     <CountUp
                       value={s.value}
                       prefix={s.prefix}
@@ -141,7 +172,7 @@ export function SkillsSection() {
             >
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{group.icon}</span>
-                <h3 className="font-display text-2xl md:text-3xl tracking-wide">
+                <h3 className="font-display text-base md:text-lg tracking-wide">
                   {group.category}
                 </h3>
               </div>

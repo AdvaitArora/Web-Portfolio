@@ -43,6 +43,10 @@
 }
 
 @layer components {
+  /* Unbounded ships multiple weights (Bebas had one) — the display voice is always heavy */
+  .font-display {
+    font-weight: 800;
+  }
   .text-stroke {
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
     color: transparent;

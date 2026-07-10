@@ -81,10 +81,13 @@ export default function NotFoundPage() {
         />
       </div>
 
-      <h1 className="font-display text-[120px] leading-none md:text-[180px] tracking-tight">
-        4<span className="gradient-text">0</span>4
+      <h1 className="font-marker text-[100px] leading-none md:text-[150px] -rotate-2">
+        404
       </h1>
-      <p className="mt-2 text-lg text-[#a3a3a3] max-w-md text-center">
+      <p className="mt-4 font-hand font-semibold text-2xl md:text-3xl text-[#ec4899] -rotate-2">
+        how'd you even get here?
+      </p>
+      <p className="mt-3 text-lg text-[#a3a3a3] max-w-md text-center">
         This page got lost in the data lake. Let's head back to somewhere that exists.
       </p>
 

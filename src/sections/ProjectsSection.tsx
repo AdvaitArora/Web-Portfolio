@@ -30,10 +30,20 @@ function hexToHSL(hex: string): string {
   return `${Math.round(h)} ${Math.round(s * 100)} ${Math.round(l * 100)}`;
 }
 
-const PROJECTS = [
+const PROJECTS: {
+  title: string;
+  company: string;
+  tech: string[];
+  description: string;
+  highlight: string;
+  icon: string;
+  color: string;
+  scribble?: string;
+}[] = [
   {
     title: "Logistics KPI Automation Dashboard",
     company: "L&T · 2024",
+    scribble: "my favourite one!",
     tech: ["Power BI", "Advanced Excel", "ERP Data"],
     description:
       "Replaced 10 hrs/week of manual Excel reporting with real-time Power BI dashboards. Defined KPI requirements with stakeholders and mapped ERP data fields.",
@@ -71,7 +81,7 @@ export function ProjectsSection() {
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#a855f7] mb-3">
             ― Selected Work
           </p>
-          <h2 className="font-display text-5xl md:text-7xl tracking-tight">
+          <h2 className="font-display text-3xl md:text-5xl tracking-tight">
             PROJECTS
           </h2>
         </div>
@@ -85,8 +95,13 @@ export function ProjectsSection() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               whileHover={{ y: -6 }}
-              className="h-full"
+              className="relative h-full"
             >
+              {p.scribble && (
+                <span className="absolute -top-4 right-6 z-10 font-hand font-semibold text-2xl text-[#ec4899] rotate-3 pointer-events-none">
+                  {p.scribble}
+                </span>
+              )}
               <BorderGlow className="group h-full" glowColor={hexToHSL(p.color)}>
                 <article className="relative p-7 h-full flex flex-col">
                   <div
@@ -101,7 +116,7 @@ export function ProjectsSection() {
                     />
                   </div>
 
-                  <h3 className="font-display text-2xl leading-tight tracking-wide mb-1">
+                  <h3 className="font-display text-base md:text-lg leading-snug tracking-wide mb-1">
                     {p.title}
                   </h3>
                   <p className="text-xs text-[#525252] font-mono uppercase tracking-wider mb-5">

@@ -10,7 +10,7 @@ export function AboutSection() {
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#a855f7] mb-4">
             ― About Me
           </p>
-          <h2 className="font-display text-[18vw] md:text-[11rem] leading-[0.85] tracking-tight inline-block gradient-text">
+          <h2 className="font-display text-[13vw] md:text-[6.5rem] leading-[0.95] tracking-tight inline-block gradient-text">
             ABOUT ME
           </h2>
         </div>
@@ -45,6 +45,10 @@ export function AboutSection() {
           >
             I don't just work with data. I translate it.
           </ScrollReveal>
+
+          <p className="mt-8 font-hand font-semibold text-2xl md:text-3xl text-[#ec4899] -rotate-2">
+            aka: i make spreadsheets confess
+          </p>
         </div>
 
         <div className="mt-14 flex justify-center">

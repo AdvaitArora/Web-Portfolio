@@ -24,9 +24,11 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Bebas Neue"', "Impact", "sans-serif"],
+        display: ['"Unbounded"', "Impact", "sans-serif"],
         sans: ['"DM Sans"', "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "monospace"],
+        hand: ['"Caveat"', "cursive"],
+        marker: ['"Permanent Marker"', "cursive"],
       },
       animation: {
         "float-slow": "float 7s ease-in-out infinite",

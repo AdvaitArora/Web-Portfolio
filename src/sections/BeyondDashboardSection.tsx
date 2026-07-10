@@ -24,10 +24,8 @@ export function BeyondDashboardSection() {
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#a855f7] mb-4">
             ― When I'm Off the Clock
           </p>
-          <h2 className="font-display text-5xl md:text-7xl tracking-tight">
-            BEYOND THE
-            <br />
-            <span className="gradient-text">DASHBOARD.</span>
+          <h2 className="font-marker text-4xl md:text-6xl text-white -rotate-1 inline-block underline decoration-wavy decoration-[#ec4899] decoration-[3px] underline-offset-[12px]">
+            Beyond the dashboard.
           </h2>
           <div className="mx-auto w-16 h-px bg-[#a855f7] my-8" />
           <p className="text-[#a3a3a3] max-w-xl mx-auto">
@@ -84,7 +82,7 @@ function CricketCard() {
               </span>
             </div>
 
-            <h3 className="font-display text-5xl md:text-6xl text-white leading-[0.9]">
+            <h3 className="font-display text-2xl md:text-4xl text-white leading-[1.05]">
               OUT ON
               <br />
               <span className="text-[#22c55e]">THE PITCH.</span>
@@ -95,7 +93,7 @@ function CricketCard() {
                 <p className="text-[10px] font-mono uppercase text-[#525252] tracking-wider">
                   Matches Led
                 </p>
-                <p className="font-display text-3xl md:text-4xl text-white leading-none mt-1">
+                <p className="font-display text-xl md:text-2xl text-white leading-none mt-1">
                   30<span className="text-[#22c55e]">+</span>
                 </p>
               </div>
@@ -103,7 +101,7 @@ function CricketCard() {
                 <p className="text-[10px] font-mono uppercase text-[#525252] tracking-wider">
                   Level
                 </p>
-                <p className="font-display text-2xl md:text-3xl text-white leading-none mt-1">
+                <p className="font-display text-lg md:text-xl text-white leading-none mt-1">
                   U-16
                 </p>
                 <p className="text-[10px] font-mono text-[#a3a3a3] mt-0.5">
@@ -114,7 +112,7 @@ function CricketCard() {
                 <p className="text-[10px] font-mono uppercase text-[#525252] tracking-wider">
                   Role
                 </p>
-                <p className="font-display text-2xl md:text-3xl text-white leading-none mt-1">
+                <p className="font-display text-lg md:text-xl text-white leading-none mt-1">
                   Batsman
                 </p>
               </div>
@@ -146,7 +144,7 @@ function TradingCard() {
         </div>
         <span className="text-[10px] font-mono text-[#525252]">1W</span>
       </div>
-      <p className="font-display text-3xl text-white mt-1 leading-none">
+      <p className="font-display text-xl text-white mt-1 leading-none">
         22,847.50
       </p>
       <p className="text-xs text-[#22c55e] font-mono mt-1">

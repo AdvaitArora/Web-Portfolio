@@ -8,8 +8,8 @@ export function Footer() {
         <div className="font-bold text-sm text-white">
           advait<span className="text-[#a855f7]">.</span>
         </div>
-        <p className="font-mono">
-          Built with React & <span className="text-[#ec4899]">♥</span>
+        <p className="font-hand font-semibold text-xl text-[#ec4899] -rotate-2">
+          made with coffee + SQL
         </p>
         <div className="flex items-center gap-4">
           <a

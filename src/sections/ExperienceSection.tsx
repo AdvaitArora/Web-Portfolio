@@ -2,13 +2,22 @@ import { motion } from "motion/react";
 import { Briefcase, GraduationCap, MapPin } from "lucide-react";
 import { BorderGlow } from "@/components/ui/border-glow";
 
-const EXPERIENCES = [
+const EXPERIENCES: {
+  company: string;
+  department?: string;
+  role: string;
+  period: string;
+  location: string;
+  bullets: string[];
+  note?: string;
+}[] = [
   {
     company: "Larsen & Toubro (L&T)",
     department: "Logistics Management Centre",
     role: "Business Analyst Intern",
     period: "May – Sep 2024",
     location: "Mumbai",
+    note: "where it clicked",
     bullets: [
       "Built Power BI dashboards cutting manual reporting from 10 hrs to 2 hrs/week (80% reduction)",
       "Mapped full purchase-to-payment workflow across multiple business units; improved first-pass accuracy",
@@ -71,7 +80,7 @@ export function ExperienceSection() {
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#a855f7] mb-3">
             ― My Journey
           </p>
-          <h2 className="font-display text-5xl md:text-7xl tracking-tight">
+          <h2 className="font-display text-3xl md:text-5xl tracking-tight">
             EXPERIENCE
           </h2>
         </div>
@@ -91,7 +100,7 @@ export function ExperienceSection() {
             <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#a855f7] mb-3">
               ― Education
             </p>
-            <h2 className="font-display text-4xl md:text-5xl tracking-tight">
+            <h2 className="font-display text-2xl md:text-4xl tracking-tight">
               ACADEMIC BACKGROUND
             </h2>
           </div>
@@ -111,7 +120,7 @@ export function ExperienceSection() {
                     <div className="flex items-start gap-3 mb-3">
                       <GraduationCap size={22} className="text-[#a855f7] flex-shrink-0 mt-1" />
                       <div>
-                        <h3 className="font-display text-xl md:text-2xl tracking-wide leading-tight">
+                        <h3 className="font-display text-base md:text-lg tracking-wide leading-snug">
                           {edu.institution}
                         </h3>
                         <p className="text-sm text-[#a3a3a3] mt-1">{edu.degree}</p>
@@ -168,14 +177,19 @@ function TimelineEntry({
       <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-2 w-3 h-3 rounded-full bg-[#0a0a0a] border-2 border-[#a855f7] shadow-[0_0_20px_rgba(168,85,247,0.5)]" />
 
       <div
-        className={`ml-10 md:ml-0 ${isLeft ? "md:mr-8" : "md:ml-8"}`}
+        className={`relative ml-10 md:ml-0 ${isLeft ? "md:mr-8" : "md:ml-8"}`}
       >
+        {exp.note && (
+          <span className="absolute -top-4 right-5 z-10 font-hand font-semibold text-2xl text-[#ec4899] rotate-3 pointer-events-none">
+            {exp.note}
+          </span>
+        )}
         <BorderGlow>
           <div className="p-6 md:p-7">
             <div className="flex items-start gap-3 mb-3">
               <Briefcase size={20} className="text-[#a855f7] flex-shrink-0 mt-1" />
               <div>
-                <h3 className="font-display text-2xl tracking-wide leading-tight">
+                <h3 className="font-display text-base md:text-lg tracking-wide leading-snug">
                   {exp.company}
                 </h3>
                 {exp.department && (

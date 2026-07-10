@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { LinkedinIcon } from "@/components/ui/brand-icons";
-import { ShadowOverlay } from "@/components/ui/shadow-overlay";
+import { ShootingStars } from "@/components/ui/shooting-stars";
 
 const SKILL_BADGES = [
   { label: "Power BI", x: "-14%", y: "12%", delay: 0.9 },
@@ -18,14 +18,8 @@ export function HeroSection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 pt-24 pb-16 isolate"
     >
       <div className="absolute inset-0 z-0">
-        <ShadowOverlay
-          color="rgba(168, 85, 247, 0.85)"
-          animation={{ scale: 65, speed: 55 }}
-          noise={{ opacity: 0.35, scale: 1.2 }}
-          className="absolute inset-0"
-        />
-        <div className="absolute inset-0 bg-black/55 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.08),transparent_70%)] pointer-events-none" />
+        <ShootingStars className="absolute inset-0 w-full h-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.07),transparent_70%)] pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-6xl w-full grid md:grid-cols-[1.25fr_1fr] gap-12 items-center">
@@ -43,7 +37,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="font-display text-[18vw] md:text-[9rem] lg:text-[11rem] leading-[0.85] tracking-tight text-white"
+            className="font-display text-[12vw] md:text-[5.5rem] lg:text-[7rem] leading-[0.95] tracking-tight text-white"
           >
             ADVAIT
             <br />
@@ -121,6 +115,15 @@ export function HeroSection() {
                 {b.label}
               </motion.span>
             ))}
+
+            <motion.span
+              initial={{ opacity: 0, scale: 0.6, rotate: -14 }}
+              animate={{ opacity: 1, scale: 1, rotate: -6 }}
+              transition={{ type: "spring", stiffness: 260, damping: 16, delay: 1.5 }}
+              className="absolute -top-4 -left-5 z-10 font-marker text-sm text-[#0a0a0a] bg-[#ec4899] px-3.5 py-1.5 rounded shadow-[0_0_26px_rgba(236,72,153,0.45)]"
+            >
+              OPEN TO WORK ✦
+            </motion.span>
           </motion.div>
         </div>
       </div>

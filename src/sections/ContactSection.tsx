@@ -43,7 +43,7 @@ export function ContactSection() {
         <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#a855f7] mb-4">
           ― Get In Touch
         </p>
-        <h2 className="font-display text-5xl md:text-7xl tracking-tight mb-4">
+        <h2 className="font-display text-3xl md:text-5xl tracking-tight mb-4">
           LET'S WORK
           <br />
           <span className="gradient-text">TOGETHER.</span>
@@ -55,7 +55,11 @@ export function ContactSection() {
           <span className="text-white">Operations Analyst</span> internships and placements.
         </p>
 
-        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <p className="mt-10 font-hand font-semibold text-2xl md:text-3xl text-[#ec4899] -rotate-2">
+          got data? got questions?
+        </p>
+
+        <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {CONTACTS.map(({ icon: Icon, label, handle, href }) => (
             <a
               key={label}

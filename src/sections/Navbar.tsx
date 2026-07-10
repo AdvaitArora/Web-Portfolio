@@ -50,7 +50,7 @@ export function Navbar() {
         </ul>
 
         <a
-          href="/Advait_Arora_BA_Resume.pdf"
+          href="/Advait_Arora_CV.pdf"
           download
           className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#a855f7]/50 text-[#f5f5f5] text-sm hover:bg-[#a855f7]/10 hover:border-[#a855f7] transition-all"
         >
