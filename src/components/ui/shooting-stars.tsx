@@ -76,12 +76,16 @@ export function ShootingStars({ className = "" }: { className?: string }) {
       drawStars();
 
       if (--nextMeteor <= 0) {
-        nextMeteor = 160 + Math.random() * 280;
-        const angle = Math.PI * (0.15 + Math.random() * 0.2);
-        const speed = 9 + Math.random() * 5;
+        // Cadence, speed, and directions match the 21st.dev ShootingStars
+        // reference: a star every 1.2-4.2s, 10-30 px/frame, entering from a
+        // random edge on that edge's 45° diagonal.
+        nextMeteor = 72 + Math.random() * 180;
+        const side = (Math.random() * 4) | 0;
+        const angle = ([45, 135, 225, 315][side] * Math.PI) / 180;
+        const speed = 10 + Math.random() * 20;
         meteors.push({
-          x: Math.random() * w * 0.8,
-          y: -20,
+          x: side === 1 ? w + 20 : side === 3 ? -20 : Math.random() * w,
+          y: side === 0 ? -20 : side === 2 ? h + 20 : Math.random() * h,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
           life: 0,
@@ -90,16 +94,22 @@ export function ShootingStars({ className = "" }: { className?: string }) {
         });
       }
 
+      // Cull margin covers the longest trail so tails never pop mid-screen.
       meteors = meteors.filter(
-        (m) => m.life < m.maxLife && m.x < w + 120 && m.y < h + 120
+        (m) =>
+          m.life < m.maxLife &&
+          m.x > -340 &&
+          m.x < w + 340 &&
+          m.y > -340 &&
+          m.y < h + 340
       );
       for (const m of meteors) {
         m.x += m.vx;
         m.y += m.vy;
         m.life++;
         const fade = 1 - m.life / m.maxLife;
-        const tailX = m.x - m.vx * 14;
-        const tailY = m.y - m.vy * 14;
+        const tailX = m.x - m.vx * 10;
+        const tailY = m.y - m.vy * 10;
         const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
         grad.addColorStop(0, m.color);
         grad.addColorStop(1, "rgba(0,0,0,0)");
