@@ -174,8 +174,6 @@ function TimelineEntry({
         isLeft ? "" : "md:[&>*:first-child]:col-start-2"
       }`}
     >
-      <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-2 w-3 h-3 rounded-full bg-[#0a0a0a] border-2 border-[#a855f7] shadow-[0_0_20px_rgba(168,85,247,0.5)]" />
-
       <div
         className={`relative ml-10 md:ml-0 ${isLeft ? "md:mr-8" : "md:ml-8"}`}
       >
