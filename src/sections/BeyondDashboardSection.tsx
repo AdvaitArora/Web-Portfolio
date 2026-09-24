@@ -54,7 +54,7 @@ function CricketCard() {
       transition={{ duration: 0.6 }}
       className="lg:col-span-2"
     >
-      <BorderGlow className="h-full min-h-[280px]" glowColor="142 71 45">
+      <BorderGlow className="h-full min-h-[280px]">
         <div className="relative h-full">
           <div className="absolute inset-0 bg-gradient-to-br from-[#0a1f0a] via-[#0a0a0a] to-[#0a0a0a]" />
           <div
@@ -133,7 +133,7 @@ function TradingCard() {
       transition={{ duration: 0.6, delay: 0.1 }}
       className="h-full"
     >
-      <BorderGlow className="h-full" glowColor="142 71 45">
+      <BorderGlow className="h-full">
         <div className="p-6 flex flex-col h-full">
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
@@ -305,7 +305,7 @@ function MusicCard() {
       transition={{ duration: 0.6, delay: 0.2 }}
       className="h-full"
     >
-      <BorderGlow className="h-full" glowColor="330 81 60">
+      <BorderGlow className="h-full">
         <div className="p-6 flex flex-col h-full">
       <div className="flex items-center gap-2 mb-4">
         <Music2 size={16} className="text-[#ec4899]" />
