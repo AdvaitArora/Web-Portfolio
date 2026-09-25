@@ -8,7 +8,7 @@ import {
   SkipForward,
   TrendingUp,
 } from "lucide-react";
-import { BorderGlow } from "@/components/ui/border-glow";
+import { Card } from "@/components/ui/card";
 
 export function BeyondDashboardSection() {
   return (
@@ -54,7 +54,7 @@ function CricketCard() {
       transition={{ duration: 0.6 }}
       className="lg:col-span-2"
     >
-      <BorderGlow className="h-full min-h-[280px]">
+      <Card className="h-full min-h-[280px]">
         <div className="relative h-full">
           <div className="absolute inset-0 bg-gradient-to-br from-[#0a1f0a] via-[#0a0a0a] to-[#0a0a0a]" />
           <div
@@ -119,7 +119,7 @@ function CricketCard() {
             </div>
           </div>
         </div>
-      </BorderGlow>
+      </Card>
     </motion.div>
   );
 }
@@ -133,7 +133,7 @@ function TradingCard() {
       transition={{ duration: 0.6, delay: 0.1 }}
       className="h-full"
     >
-      <BorderGlow className="h-full">
+      <Card className="h-full">
         <div className="p-6 flex flex-col h-full">
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
@@ -184,7 +184,7 @@ function TradingCard() {
         "I read candles as well as I read dashboards."
       </p>
         </div>
-      </BorderGlow>
+      </Card>
     </motion.div>
   );
 }
@@ -198,7 +198,7 @@ function BikesCard() {
       transition={{ duration: 0.6, delay: 0.15 }}
       className="h-full"
     >
-      <BorderGlow className="h-full group">
+      <Card className="h-full group">
         <div className="p-6 flex flex-col h-full relative">
       <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1a] via-[#0a0a0a] to-[#0a0a0a]" />
 
@@ -291,7 +291,7 @@ function BikesCard() {
         "Miles clear the mind that spreadsheets can't."
       </p>
         </div>
-      </BorderGlow>
+      </Card>
     </motion.div>
   );
 }
@@ -305,7 +305,7 @@ function MusicCard() {
       transition={{ duration: 0.6, delay: 0.2 }}
       className="h-full"
     >
-      <BorderGlow className="h-full">
+      <Card className="h-full">
         <div className="p-6 flex flex-col h-full">
       <div className="flex items-center gap-2 mb-4">
         <Music2 size={16} className="text-[#ec4899]" />
@@ -352,7 +352,7 @@ function MusicCard() {
         <SkipForward size={16} />
       </div>
         </div>
-      </BorderGlow>
+      </Card>
     </motion.div>
   );
 }
@@ -375,7 +375,7 @@ function TravelCard() {
       transition={{ duration: 0.6, delay: 0.25 }}
       className="h-full"
     >
-      <BorderGlow className="h-full">
+      <Card className="h-full">
         <div className="p-6 flex flex-col h-full">
       <div className="flex items-center gap-2 mb-4">
         <MapPin size={16} className="text-[#a855f7]" />
@@ -420,7 +420,7 @@ function TravelCard() {
         <span className="text-white font-semibold">6 cities</span> logged · always counting
       </p>
         </div>
-      </BorderGlow>
+      </Card>
     </motion.div>
   );
 }

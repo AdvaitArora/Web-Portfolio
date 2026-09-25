@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowUpRight, Sparkles } from "lucide-react";
-import { BorderGlow } from "@/components/ui/border-glow";
+import { Card } from "@/components/ui/card";
 
 const PROJECTS: {
   title: string;
@@ -74,7 +74,7 @@ export function ProjectsSection() {
                   {p.scribble}
                 </span>
               )}
-              <BorderGlow className="group h-full">
+              <Card className="group h-full">
                 <article className="relative p-7 h-full flex flex-col">
                   <div
                     className="absolute top-0 left-0 right-0 h-[2px] opacity-70"
@@ -124,7 +124,7 @@ export function ProjectsSection() {
                     ))}
                   </div>
                 </article>
-              </BorderGlow>
+              </Card>
             </motion.div>
           ))}
         </div>

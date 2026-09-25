@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { Briefcase, GraduationCap, MapPin } from "lucide-react";
-import { BorderGlow } from "@/components/ui/border-glow";
+import { Card } from "@/components/ui/card";
 
 const EXPERIENCES: {
   company: string;
@@ -115,7 +115,7 @@ export function ExperienceSection() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="h-full"
               >
-                <BorderGlow className="h-full">
+                <Card className="h-full">
                   <div className="p-6 md:p-7">
                     <div className="flex items-start gap-3 mb-3">
                       <GraduationCap size={22} className="text-[#a855f7] flex-shrink-0 mt-1" />
@@ -146,7 +146,7 @@ export function ExperienceSection() {
                       </div>
                     )}
                   </div>
-                </BorderGlow>
+                </Card>
               </motion.div>
             ))}
           </div>
@@ -182,7 +182,7 @@ function TimelineEntry({
             {exp.note}
           </span>
         )}
-        <BorderGlow>
+        <Card>
           <div className="p-6 md:p-7">
             <div className="flex items-start gap-3 mb-3">
               <Briefcase size={20} className="text-[#a855f7] flex-shrink-0 mt-1" />
@@ -214,7 +214,7 @@ function TimelineEntry({
               ))}
             </ul>
           </div>
-        </BorderGlow>
+        </Card>
       </div>
     </motion.div>
   );

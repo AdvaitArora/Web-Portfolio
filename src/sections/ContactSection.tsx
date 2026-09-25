@@ -1,5 +1,5 @@
 import { BeamsBackground } from "@/components/ui/beams-background";
-import { BorderGlow } from "@/components/ui/border-glow";
+import { Card } from "@/components/ui/card";
 import { LinkedinIcon, InstagramIcon } from "@/components/ui/brand-icons";
 import { Mail, Phone } from "lucide-react";
 import type { ComponentType } from "react";
@@ -68,7 +68,7 @@ export function ContactSection() {
               rel="noreferrer"
               className="group block hover:-translate-y-1 transition-transform duration-300"
             >
-              <BorderGlow className="h-full">
+              <Card className="h-full">
                 <div className="p-6 flex flex-col items-center gap-3 h-full">
                   <Icon
                     size={24}
@@ -79,7 +79,7 @@ export function ContactSection() {
                     {handle}
                   </p>
                 </div>
-              </BorderGlow>
+              </Card>
             </a>
           ))}
         </div>

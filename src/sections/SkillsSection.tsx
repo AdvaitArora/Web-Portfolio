@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
-import { BorderGlow } from "@/components/ui/border-glow";
+import { Card } from "@/components/ui/card";
 
 const SKILLS = [
   {
@@ -117,7 +117,7 @@ export function SkillsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <BorderGlow className="h-full">
+              <Card className="h-full">
                 <div className="p-6 md:p-8 text-center">
                   <div className="relative inline-block font-display text-2xl md:text-3xl gradient-text leading-none">
                     {s.circled && (
@@ -155,7 +155,7 @@ export function SkillsSection() {
                     {s.label}
                   </p>
                 </div>
-              </BorderGlow>
+              </Card>
             </motion.div>
           ))}
         </div>
