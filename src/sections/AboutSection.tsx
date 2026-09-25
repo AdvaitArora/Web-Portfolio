@@ -18,9 +18,7 @@ export function AboutSection() {
         <div className="max-w-2xl mx-auto text-center">
           <ScrollReveal
             baseOpacity={0.1}
-            enableBlur
             baseRotation={3}
-            blurStrength={4}
             textClassName="text-white"
           >
             Engineer by training. Analyst by choice. Builder by instinct.
@@ -28,9 +26,7 @@ export function AboutSection() {
 
           <ScrollReveal
             baseOpacity={0.1}
-            enableBlur
             baseRotation={3}
-            blurStrength={4}
             textClassName="text-white/90"
           >
             I spent 4.5 months inside L&T automating what used to take hours — Power BI dashboards, SAP pipelines, data that finally made sense to the people who needed it.
@@ -38,9 +34,7 @@ export function AboutSection() {
 
           <ScrollReveal
             baseOpacity={0.1}
-            enableBlur
             baseRotation={3}
-            blurStrength={4}
             textClassName="text-white"
           >
             I don't just work with data. I translate it.

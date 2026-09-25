@@ -18,10 +18,10 @@ const WORD_STAGGER = 0.05;
 interface ScrollRevealProps {
   children: ReactNode;
   scrollContainerRef?: RefObject<HTMLElement>;
-  enableBlur?: boolean;
   baseOpacity?: number;
   baseRotation?: number;
-  blurStrength?: number;
+  /** Px each word rises from as it fades in. */
+  liftDistance?: number;
   containerClassName?: string;
   textClassName?: string;
 }
@@ -31,8 +31,7 @@ interface WordProps {
   index: number;
   count: number;
   baseOpacity: number;
-  blurStrength: number;
-  enableBlur: boolean;
+  liftDistance: number;
   children: string;
 }
 
@@ -41,8 +40,7 @@ function Word({
   index,
   count,
   baseOpacity,
-  blurStrength,
-  enableBlur,
+  liftDistance,
   children,
 }: WordProps) {
   const total = WORD_TWEEN + WORD_STAGGER * (count - 1);
@@ -51,20 +49,14 @@ function Word({
     (WORD_STAGGER * index + WORD_TWEEN) / total,
   ];
   const opacity = useTransform(progress, range, [baseOpacity, 1]);
-  const filter = useTransform(progress, range, [
-    `blur(${blurStrength}px)`,
-    "blur(0px)",
-  ]);
+  const y = useTransform(progress, range, [liftDistance, 0]);
+  // Only give the word its own compositor layer while it is mid-reveal.
+  const willChange = useTransform(progress, (p) =>
+    p > range[0] && p < range[1] ? "transform, opacity" : "auto"
+  );
 
   return (
-    <motion.span
-      className="inline-block word"
-      style={
-        enableBlur
-          ? { opacity, filter, willChange: "opacity" }
-          : { opacity, willChange: "opacity" }
-      }
-    >
+    <motion.span className="inline-block word" style={{ opacity, y, willChange }}>
       {children}
     </motion.span>
   );
@@ -73,10 +65,9 @@ function Word({
 export function ScrollReveal({
   children,
   scrollContainerRef,
-  enableBlur = true,
   baseOpacity = 0.1,
   baseRotation = 3,
-  blurStrength = 4,
+  liftDistance = 12,
   containerClassName = "",
   textClassName = "",
 }: ScrollRevealProps) {
@@ -148,8 +139,7 @@ export function ScrollReveal({
               index={wordIndex}
               count={wordCount}
               baseOpacity={baseOpacity}
-              blurStrength={blurStrength}
-              enableBlur={enableBlur}
+              liftDistance={liftDistance}
             >
               {text}
             </Word>
