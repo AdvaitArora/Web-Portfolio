@@ -1,8 +1,19 @@
-import { useEffect, useMemo, useRef, type ReactNode, type RefObject } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 
-gsap.registerPlugin(ScrollTrigger);
+// Timing carried over from the GSAP version: each word's tween spans 0.5 units
+// of a timeline, and words start 0.05 apart. The whole timeline is scrubbed
+// across the scroll range, so word i is active over
+// [i * STAGGER, i * STAGGER + TWEEN] / (TWEEN + STAGGER * (words - 1)).
+const WORD_TWEEN = 0.5;
+const WORD_STAGGER = 0.05;
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -13,8 +24,50 @@ interface ScrollRevealProps {
   blurStrength?: number;
   containerClassName?: string;
   textClassName?: string;
-  rotationEnd?: string;
-  wordAnimationEnd?: string;
+}
+
+interface WordProps {
+  progress: MotionValue<number>;
+  index: number;
+  count: number;
+  baseOpacity: number;
+  blurStrength: number;
+  enableBlur: boolean;
+  children: string;
+}
+
+function Word({
+  progress,
+  index,
+  count,
+  baseOpacity,
+  blurStrength,
+  enableBlur,
+  children,
+}: WordProps) {
+  const total = WORD_TWEEN + WORD_STAGGER * (count - 1);
+  const range = [
+    (WORD_STAGGER * index) / total,
+    (WORD_STAGGER * index + WORD_TWEEN) / total,
+  ];
+  const opacity = useTransform(progress, range, [baseOpacity, 1]);
+  const filter = useTransform(progress, range, [
+    `blur(${blurStrength}px)`,
+    "blur(0px)",
+  ]);
+
+  return (
+    <motion.span
+      className="inline-block word"
+      style={
+        enableBlur
+          ? { opacity, filter, willChange: "opacity" }
+          : { opacity, willChange: "opacity" }
+      }
+    >
+      {children}
+    </motion.span>
+  );
 }
 
 export function ScrollReveal({
@@ -26,111 +79,83 @@ export function ScrollReveal({
   blurStrength = 4,
   containerClassName = "",
   textClassName = "",
-  rotationEnd = "bottom bottom",
-  wordAnimationEnd = "bottom bottom",
 }: ScrollRevealProps) {
   const containerRef = useRef<HTMLHeadingElement>(null);
 
-  const splitText = useMemo(() => {
+  const { tokens, wordCount } = useMemo(() => {
     const text = typeof children === "string" ? children : "";
-    return text.split(/(\s+)/).map((word, index) => {
-      if (word.match(/^\s+$/)) return word;
-      return (
-        <span className="inline-block word" key={index}>
-          {word}
-        </span>
-      );
-    });
+    let count = 0;
+    const parts = text
+      .split(/(\s+)/)
+      .filter((part) => part !== "")
+      .map((part) => ({
+        text: part,
+        wordIndex: /^\s+$/.test(part) ? -1 : count++,
+      }));
+    return { tokens: parts, wordCount: count };
   }, [children]);
 
-  useEffect(() => {
+  // Heading straightens as it enters: "top bottom" -> "bottom bottom".
+  const { scrollYProgress: rotationProgress } = useScroll({
+    target: containerRef,
+    container: scrollContainerRef,
+    offset: ["start end", "end end"],
+  });
+  const rotate = useTransform(rotationProgress, [0, 1], [baseRotation, 0]);
+
+  // A heading shorter than the 20% of viewport height between the two word
+  // anchors would end before it starts, which reads as the words fading *out*
+  // as they arrive. Those get a fixed 20% of scroll travel instead.
+  const [isShort, setIsShort] = useState(false);
+  useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-
-    const scroller =
-      scrollContainerRef && scrollContainerRef.current
-        ? scrollContainerRef.current
-        : window;
-
-    const triggers: ScrollTrigger[] = [];
-
-    const rotationTween = gsap.fromTo(
-      el,
-      { transformOrigin: "0% 50%", rotate: baseRotation },
-      {
-        ease: "none",
-        rotate: 0,
-        scrollTrigger: {
-          trigger: el,
-          scroller,
-          start: "top bottom",
-          end: rotationEnd,
-          scrub: true,
-        },
-      }
-    );
-    if (rotationTween.scrollTrigger) triggers.push(rotationTween.scrollTrigger);
-
-    const wordElements = el.querySelectorAll<HTMLSpanElement>(".word");
-
-    const opacityTween = gsap.fromTo(
-      wordElements,
-      { opacity: baseOpacity, willChange: "opacity" },
-      {
-        ease: "none",
-        opacity: 1,
-        stagger: 0.05,
-        scrollTrigger: {
-          trigger: el,
-          scroller,
-          start: "top bottom-=20%",
-          end: wordAnimationEnd,
-          scrub: true,
-        },
-      }
-    );
-    if (opacityTween.scrollTrigger) triggers.push(opacityTween.scrollTrigger);
-
-    if (enableBlur) {
-      const blurTween = gsap.fromTo(
-        wordElements,
-        { filter: `blur(${blurStrength}px)` },
-        {
-          ease: "none",
-          filter: "blur(0px)",
-          stagger: 0.05,
-          scrollTrigger: {
-            trigger: el,
-            scroller,
-            start: "top bottom-=20%",
-            end: wordAnimationEnd,
-            scrub: true,
-          },
-        }
-      );
-      if (blurTween.scrollTrigger) triggers.push(blurTween.scrollTrigger);
-    }
-
+    const check = () => setIsShort(el.offsetHeight < window.innerHeight * 0.2);
+    check();
+    // The heading reflows when web fonts load, so watch it, not just the window.
+    const observer = new ResizeObserver(check);
+    observer.observe(el);
+    window.addEventListener("resize", check);
     return () => {
-      triggers.forEach((t) => t.kill());
+      observer.disconnect();
+      window.removeEventListener("resize", check);
     };
-  }, [
-    scrollContainerRef,
-    enableBlur,
-    baseRotation,
-    baseOpacity,
-    rotationEnd,
-    wordAnimationEnd,
-    blurStrength,
-  ]);
+  }, []);
+
+  // Words reveal from 20% up the viewport: "top bottom-=20%" -> "bottom bottom".
+  const { scrollYProgress: wordProgress } = useScroll({
+    target: containerRef,
+    container: scrollContainerRef,
+    offset: isShort ? ["start 0.8", "start 0.6"] : ["start 0.8", "end end"],
+  });
 
   return (
-    <h2 ref={containerRef} className={`my-5 ${containerClassName}`}>
+    <motion.h2
+      ref={containerRef}
+      style={{ rotate, transformOrigin: "0% 50%" }}
+      className={`my-5 ${containerClassName}`}
+    >
       <p
         className={`text-[clamp(1.6rem,4vw,3rem)] leading-[1.5] font-semibold ${textClassName}`}
       >
-        {splitText}
+        {tokens.map(({ text, wordIndex }, i) =>
+          wordIndex < 0 ? (
+            text
+          ) : (
+            <Word
+              key={i}
+              progress={wordProgress}
+              index={wordIndex}
+              count={wordCount}
+              baseOpacity={baseOpacity}
+              blurStrength={blurStrength}
+              enableBlur={enableBlur}
+            >
+              {text}
+            </Word>
+          )
+        )}
       </p>
-    </h2>
+    </motion.h2>
   );
 }
