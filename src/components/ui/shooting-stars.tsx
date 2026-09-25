@@ -127,9 +127,16 @@ export function ShootingStars({ className = "" }: { className?: string }) {
       t += 0.02;
       raf = requestAnimationFrame(frame);
     };
-    frame();
+
+    // Only run the loop while the canvas is on screen.
+    const observer = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(raf);
+      if (entry.isIntersecting) frame();
+    });
+    observer.observe(canvas);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };

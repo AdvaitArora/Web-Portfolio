@@ -123,3 +123,45 @@
     color: #ffffff;
   }
 }
+
+/* ---- Beams background (About + Contact) ----
+   Soft gradient streaks that drift and pulse using transform/opacity only, so
+   they animate on the compositor. BeamsBackground sets data-active="false"
+   while the section is off-screen to pause them. */
+@keyframes beam-drift {
+  from {
+    transform: translateY(0) rotate(var(--angle));
+  }
+  to {
+    transform: translateY(var(--travel)) rotate(var(--angle));
+  }
+}
+@keyframes beam-pulse {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.beams-bg .beam {
+  position: absolute;
+  top: -75%;
+  height: 250%;
+  left: var(--x);
+  width: var(--w);
+  margin-left: calc(var(--w) / -2);
+  background: radial-gradient(
+    closest-side,
+    hsl(var(--h) 90% 65% / var(--o)),
+    hsl(var(--h) 90% 65% / calc(var(--o) * 0.75)) 30%,
+    hsl(var(--h) 90% 65% / calc(var(--o) * 0.25)) 65%,
+    transparent
+  );
+  animation:
+    beam-drift var(--drift) ease-in-out var(--delay) infinite alternate,
+    beam-pulse var(--pulse) ease-in-out var(--delay) infinite alternate;
+}
+.beams-bg[data-active="false"] .beam {
+  animation-play-state: paused;
+}

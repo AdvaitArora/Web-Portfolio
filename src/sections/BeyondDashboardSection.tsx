@@ -316,13 +316,9 @@ function MusicCard() {
 
       <div className="flex gap-3 items-center">
         <div className="relative w-16 h-16 rounded-lg bg-gradient-to-br from-[#ec4899] via-[#a855f7] to-[#6366f1] flex-shrink-0 flex items-center justify-center overflow-hidden">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="w-9 h-9 rounded-full bg-black/80 flex items-center justify-center border border-white/20"
-          >
+          <div className="w-9 h-9 rounded-full bg-black/80 flex items-center justify-center border border-white/20 animate-spin [animation-duration:10s]">
             <div className="w-1.5 h-1.5 rounded-full bg-white/80" />
-          </motion.div>
+          </div>
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-white text-sm font-medium truncate">Wonderful</p>

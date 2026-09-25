@@ -1,18 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
-
-interface Beam {
-  x: number;
-  y: number;
-  width: number;
-  length: number;
-  angle: number;
-  speed: number;
-  opacity: number;
-  hue: number;
-  pulse: number;
-  pulseSpeed: number;
-}
 
 interface BeamsBackgroundProps {
   className?: string;
@@ -21,108 +8,70 @@ interface BeamsBackgroundProps {
 }
 
 const INTENSITY_MAP = {
-  subtle: { opacity: 0.35, count: 14 },
-  medium: { opacity: 0.55, count: 20 },
-  strong: { opacity: 0.75, count: 28 },
+  subtle: { opacity: 0.35, count: 10 },
+  medium: { opacity: 0.55, count: 14 },
+  strong: { opacity: 0.75, count: 18 },
 };
 
-function createBeam(width: number, height: number): Beam {
-  const angle = -35 + Math.random() * 10;
-  return {
-    x: Math.random() * width * 1.5 - width * 0.25,
-    y: Math.random() * height * 1.5 - height * 0.25,
-    width: 30 + Math.random() * 60,
-    length: height * 2.5,
-    angle,
-    speed: 0.4 + Math.random() * 0.9,
-    opacity: 0.1 + Math.random() * 0.25,
-    hue: 270 + Math.random() * 50,
-    pulse: Math.random() * Math.PI * 2,
-    pulseSpeed: 0.015 + Math.random() * 0.025,
-  };
+// Each beam is a soft gradient element animated with transform/opacity only
+// (see `.beams-bg` in index.css), so it runs on the compositor with no
+// per-frame JavaScript. Layouts are rolled once per intensity at load.
+function createBeams(count: number, opacity: number): CSSProperties[] {
+  return Array.from({ length: count }, (_, i) => {
+    const base = 0.1 + Math.random() * 0.25;
+    return {
+      // one beam per slice of the width, jittered, so they never clump
+      "--x": `${-10 + ((i + Math.random()) / count) * 120}%`,
+      "--w": `${170 + Math.random() * 130}px`,
+      "--angle": `${-35 + Math.random() * 10}deg`,
+      "--h": Math.round(270 + Math.random() * 50),
+      "--o": +(base * opacity * 0.9).toFixed(3),
+      "--travel": `${-(20 + Math.random() * 15)}%`,
+      "--drift": `${24 + Math.random() * 24}s`,
+      "--pulse": `${5 + Math.random() * 6}s`,
+      "--delay": `${-Math.random() * 40}s`,
+    } as CSSProperties;
+  });
 }
+
+const BEAMS = Object.fromEntries(
+  Object.entries(INTENSITY_MAP).map(([key, { count, opacity }]) => [
+    key,
+    createBeams(count, opacity),
+  ])
+) as Record<keyof typeof INTENSITY_MAP, CSSProperties[]>;
 
 export function BeamsBackground({
   className,
   children,
   intensity = "medium",
 }: BeamsBackgroundProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const beamsRef = useRef<Beam[]>([]);
-  const rafRef = useRef<number>(0);
-  const cfg = INTENSITY_MAP[intensity];
+  const rootRef = useRef<HTMLDivElement>(null);
 
+  // Pause the drift/pulse animations while the section is off-screen.
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-      beamsRef.current = Array.from({ length: cfg.count }, () =>
-        createBeam(rect.width, rect.height)
-      );
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    const drawBeam = (beam: Beam) => {
-      ctx.save();
-      ctx.translate(beam.x, beam.y);
-      ctx.rotate((beam.angle * Math.PI) / 180);
-      const pulse = (Math.sin(beam.pulse) + 1) / 2;
-      const o = beam.opacity * (0.6 + pulse * 0.4) * cfg.opacity;
-
-      const grad = ctx.createLinearGradient(0, 0, 0, beam.length);
-      grad.addColorStop(0, `hsla(${beam.hue}, 90%, 65%, 0)`);
-      grad.addColorStop(0.15, `hsla(${beam.hue}, 90%, 65%, ${o * 0.6})`);
-      grad.addColorStop(0.5, `hsla(${beam.hue}, 90%, 65%, ${o})`);
-      grad.addColorStop(0.85, `hsla(${beam.hue}, 90%, 65%, ${o * 0.6})`);
-      grad.addColorStop(1, `hsla(${beam.hue}, 90%, 65%, 0)`);
-
-      ctx.fillStyle = grad;
-      ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
-      ctx.restore();
-    };
-
-    const animate = () => {
-      const rect = canvas.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
-      ctx.filter = "blur(30px)";
-
-      beamsRef.current.forEach((beam) => {
-        beam.y -= beam.speed;
-        beam.pulse += beam.pulseSpeed;
-        if (beam.y + beam.length < -200) {
-          Object.assign(beam, createBeam(rect.width, rect.height));
-          beam.y = rect.height + 200;
-        }
-        drawBeam(beam);
-      });
-
-      rafRef.current = requestAnimationFrame(animate);
-    };
-
-    animate();
-    return () => {
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, [cfg.count, cfg.opacity]);
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        root.dataset.active = String(entry.isIntersecting);
+      },
+      { rootMargin: "100px 0px" }
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className={cn("relative overflow-hidden bg-[#0a0a0a]", className)}>
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 h-full w-full"
-        aria-hidden
-      />
+    <div
+      ref={rootRef}
+      className={cn("beams-bg relative overflow-hidden bg-[#0a0a0a]", className)}
+    >
+      <div className="absolute inset-0" aria-hidden>
+        {BEAMS[intensity].map((style, i) => (
+          <div key={i} className="beam" style={style} />
+        ))}
+      </div>
       <div
         className="absolute inset-0 bg-[#0a0a0a]/20"
         aria-hidden
